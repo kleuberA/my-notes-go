@@ -1,3 +1,4 @@
+import ContainerHome from "@/components/ContainerHome";
 import Menu from "@/components/menu";
 
 export default function Home() {
@@ -6,7 +7,9 @@ export default function Home() {
       <div>
         <Menu />
       </div>
-      <div className="flex-1">container home</div>
+      <div className="flex-1">
+        <ContainerHome />
+      </div>
     </main>
   );
 }
