@@ -22,7 +22,7 @@ export default function NotFound() {
                 <h2 className='text-4xl'>Not Found</h2>
                 <p className='text-xl'>Could not find requested resource.</p>
                 <Link
-                    href="/notes"
+                    href="/"
                     className='bg-secondary p-3 text-xs rounded-sm flex flex-row gap-3 items-center border border-border hover:bg-primary hover:border-primary transition-all duration-150'>
                     <ResetIcon /> Return Home
                 </Link>

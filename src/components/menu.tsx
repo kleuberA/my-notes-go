@@ -1,5 +1,6 @@
 import { ModeToggle } from "./toggle-theme";
 import { Button } from "./ui/button";
+import Link from "next/link";
 import Logo from "./logo";
 
 export default function Menu() {
@@ -11,8 +12,16 @@ export default function Menu() {
                 </div>
                 <div className="flex flex-row gap-3">
                     <ModeToggle />
-                    <Button className="w-24">Sign In</Button>
-                    <Button variant="secondary">Sign Up</Button>
+                    <Link href="/auth/signin">
+                        <Button className="w-24">
+                            Sign In
+                        </Button>
+                    </Link>
+                    <Link href="/auth/signup">
+                        <Button variant="secondary">
+                            Sign Up
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </nav>
