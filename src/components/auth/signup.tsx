@@ -1,6 +1,7 @@
 "use client"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import isAuthenticated from "@/hooks/isAuthenticated";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useSupabase from "@/hooks/use-supabase";
 import { useForm } from "react-hook-form";
@@ -19,6 +20,8 @@ const FormSchema = z.object({
 export default function SignUpComponent() {
 
     const supabase = useSupabase();
+
+    isAuthenticated();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),

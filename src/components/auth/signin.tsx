@@ -2,14 +2,14 @@
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import isAuthenticated from "@/hooks/isAuthenticated";
+import useSupabase from "@/hooks/use-supabase";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { z } from "zod";
-import Link from "next/link";
-import useSupabase from "@/hooks/use-supabase";
 import toast from "react-hot-toast";
-import isAuthenticated from "@/hooks/isAuthenticated";
+import Link from "next/link";
+import { z } from "zod";
 
 const FormSchema = z.object({
     email: z.string().email(),
