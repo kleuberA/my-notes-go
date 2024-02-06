@@ -2,8 +2,10 @@
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useSupabase from "@/hooks/use-supabase";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
+import toast from "react-hot-toast";
 import { Input } from "../ui/input";
 import Link from "next/link";
 import { z } from "zod";
@@ -14,8 +16,9 @@ const FormSchema = z.object({
     password: z.string().min(8, { message: "Password must be at least 8 characters." }),
 })
 
-
 export default function SignUpComponent() {
+
+    const supabase = useSupabase();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -26,8 +29,30 @@ export default function SignUpComponent() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data);
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+
+        const { data: dataSignUp, error } = await supabase.auth.signUp({
+            email: data.email,
+            password: data.password,
+            options: {
+                data: {
+                    name: data.name
+                }
+            }
+        });
+
+        if (error) {
+            toast.error(error.message);
+        } else {
+            toast.success("Account created successfully!",
+                {
+                    style: {
+                        borderRadius: '3px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                });
+        }
         form.reset();
     }
 

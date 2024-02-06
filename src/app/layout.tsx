@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,10 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster
+              position="top-right"
+              reverseOrder={false}
+            />
           </ThemeProvider>
         </body>
       </html>
