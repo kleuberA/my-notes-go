@@ -42,7 +42,14 @@ export default function SignUpComponent() {
         });
 
         if (error) {
-            toast.error(error.message);
+            toast.error(error.message,
+                {
+                    style: {
+                        borderRadius: '3px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                });
         } else {
             toast.success("Account created successfully!",
                 {

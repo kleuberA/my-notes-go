@@ -7,6 +7,9 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { z } from "zod";
 import Link from "next/link";
+import useSupabase from "@/hooks/use-supabase";
+import toast from "react-hot-toast";
+import isAuthenticated from "@/hooks/isAuthenticated";
 
 const FormSchema = z.object({
     email: z.string().email(),
@@ -16,6 +19,10 @@ const FormSchema = z.object({
 
 export default function SignInComponent() {
 
+    const supabase = useSupabase();
+
+    isAuthenticated();
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -24,8 +31,32 @@ export default function SignInComponent() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data);
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email: data.email,
+            password: data.password,
+        })
+
+        if (error) {
+            toast.error(error.message,
+                {
+                    style: {
+                        borderRadius: '3px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                });
+        } else {
+            toast.success("Login successfully!",
+                {
+                    style: {
+                        borderRadius: '3px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                });
+        }
         form.reset();
     }
 
