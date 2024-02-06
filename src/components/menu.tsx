@@ -1,10 +1,10 @@
 "use client"
+import useSupabase from "@/hooks/use-supabase";
 import { ModeToggle } from "./toggle-theme";
 import { Button } from "./ui/button";
+import { useState } from "react";
 import Link from "next/link";
 import Logo from "./logo";
-import useSupabase from "@/hooks/use-supabase";
-import { useState } from "react";
 
 export default function Menu() {
 
@@ -22,8 +22,6 @@ export default function Menu() {
     }
 
     verifyAuth();
-
-
 
     return (
         <nav className="w-full h-16 border-b border-b-border">
