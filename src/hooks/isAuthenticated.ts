@@ -6,10 +6,13 @@ async function isAuthenticated() {
     const router = useRouter();
 
     const { data } = await supabase.auth.getSession();
+
+    if (!data?.session) {
+        router.push('/');
+    }
+
     if (data.session?.user) {
         router.push('/notes');
-    }else{
-        router.push('/');
     }
 }
 

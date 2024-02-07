@@ -10,6 +10,7 @@ import { Input } from "../ui/input";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
     email: z.string().email(),
@@ -20,8 +21,7 @@ const FormSchema = z.object({
 export default function SignInComponent() {
 
     const supabase = useSupabase();
-
-    isAuthenticated();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -56,6 +56,7 @@ export default function SignInComponent() {
                         color: '#fff',
                     },
                 });
+            router.push('/notes');
         }
         form.reset();
     }

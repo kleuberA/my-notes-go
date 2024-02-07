@@ -19,6 +19,10 @@ export default function HeaderMenu() {
 
     getUser();
 
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+    }
+
     return (
         <section className="w-full h-16 border-b border-b-primary">
             <div className="h-full flex justify-between w-[90%] items-center mx-auto">
@@ -40,7 +44,7 @@ export default function HeaderMenu() {
                                 <DropdownMenuItem className="cursor-pointer">
                                     <span className="flex flex-row gap-2 items-center"> <GearIcon /> Settings</span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className="cursor-pointer flex flex-row gap-2 items-center"> <ExitIcon width={16} height={16} /> Logout</DropdownMenuItem>
+                                <DropdownMenuItem className="cursor-pointer flex flex-row gap-2 items-center" onClick={handleLogout}> <ExitIcon width={16} height={16} /> Logout</DropdownMenuItem>
                             </DropdownMenuGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
