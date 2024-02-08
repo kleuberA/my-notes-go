@@ -6,6 +6,7 @@ import useSupabase from "@/hooks/use-supabase";
 import { ModeToggle } from "../toggle-theme";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import CreateNote from "../notes/createNote";
 
 export default function HeaderMenu() {
 
@@ -27,12 +28,12 @@ export default function HeaderMenu() {
         <section className="w-full h-16 border-b border-b-primary">
             <div className="h-full flex justify-between w-[90%] items-center mx-auto">
                 <div>
-                    <Button variant="outline" className="flex flex-row gap-2 items-center"> <PlusIcon /> Create Note </Button>
+                    <CreateNote />
                 </div>
                 <div className="flex flex-row h-full items-center gap-3">
                     <ModeToggle />
                     <DropdownMenu>
-                        <DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild>
                             <Button size="icon" className="hover:bg-background border hover:border-primary hover:text-primary transition-all duration-300">
                                 {nameUser}
                             </Button>
