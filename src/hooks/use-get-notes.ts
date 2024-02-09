@@ -8,7 +8,7 @@ function useGetNotes() {
    
     const queryFn = async () => {
       return getNotes(client).then(
-        (result: { data: any; }) => result.data
+        (result) => result.data
       );
     };
    
