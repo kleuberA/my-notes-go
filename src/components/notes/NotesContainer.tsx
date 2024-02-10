@@ -2,6 +2,8 @@
 import { TrashIcon } from "@radix-ui/react-icons";
 import useGetNotes from "@/hooks/use-get-notes";
 import useSupabase from "@/hooks/use-supabase";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function NotesContainer() {
 
@@ -23,6 +25,16 @@ export default function NotesContainer() {
             .delete()
             .eq('id', id)
             .single();
+        if (!error) {
+            toast.success('Note deleted successfully!',
+                {
+                    style: {
+                        borderRadius: '3px',
+                        background: '#333',
+                        color: '#fff',
+                    }
+                })
+        }
     }
 
     return (
@@ -42,7 +54,7 @@ export default function NotesContainer() {
                         </div>
                         <div className="p-4 flex flex-row gap-5 flex-wrap">
                             {note?.map((note) => (
-                                <div key={note.id} className="h-24 group hover:bg-border relative transition-all duration-300 cursor-pointer w-64 flex items-center justify-between border border-border p-2 rounded-sm">
+                                <Link href={`/note/${note.id}`} key={note.id} className="h-24 group hover:bg-border relative transition-all duration-300 cursor-pointer w-64 flex items-center justify-between border border-border p-2 rounded-sm">
                                     <div
                                         className="absolute hidden group-hover:flex transition-all duration-300 justify-center items-center rounded-sm w-5 h-5 bg-red-500/35 top-2"
                                         onClick={() => handleClickDeleteNote(note.id)}
@@ -61,7 +73,7 @@ export default function NotesContainer() {
                                             {`${note.created_at.split("T")[1].split(".")[0]}`}
                                         </span>
                                     </div>
-                                </div>
+                                </Link>
 
                             ))}
                         </div>
