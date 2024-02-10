@@ -10,9 +10,6 @@ export default function NotesComponent() {
     return (
         <div className="w-full h-screen">
             <div className="flex flex-row h-full">
-                <div className="h-full">
-                    <SideMenu />
-                </div>
                 <div className="flex flex-col flex-1 h-full w-full">
                     <div className="">
                         <HeaderMenu />
