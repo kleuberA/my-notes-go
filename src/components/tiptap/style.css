@@ -1,3 +1,18 @@
+.tiptap::-webkit-scrollbar {
+	width: 12px; /* width of the entire scrollbar */
+}
+
+.tiptap::-webkit-scrollbar-track {
+	@apply bg-border;
+	border-radius: 0.3rem; /* color of the tracking area */
+}
+
+.tiptap::-webkit-scrollbar-thumb {
+	border-radius: 20px;
+	border: 3px solid orange;
+	@apply border-[3px] border-border bg-primary; /* creates padding around scroll thumb */
+}
+
 .tiptap > * + * {
 	margin-top: 0.75em;
 }
@@ -15,6 +30,9 @@ h5,
 h6 {
 	line-height: 1.1;
 }
+h1 {
+	font-size: x-large;
+}
 
 code {
 	background-color: rgba(97, 97, 97, 0.1);
@@ -26,7 +44,8 @@ pre {
 	color: #fff;
 	font-family: "JetBrainsMono", monospace;
 	padding: 0.75rem 1rem;
-	border-radius: 0.5rem;
+	border-radius: 0.2rem;
+	@apply border border-border;
 }
 
 pre code {

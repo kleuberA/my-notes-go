@@ -1,142 +1,153 @@
-"use client"
+'use client'
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import TextAlign from "@tiptap/extension-text-align";
-import Highlight from "@tiptap/extension-highlight";
-import StarterKit from "@tiptap/starter-kit";
-import ListItem from '@tiptap/extension-list-item'
-import TextStyle from '@tiptap/extension-text-style'
-import { Color } from '@tiptap/extension-color'
-import React from "react";
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
+import TextStyle from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
+
 import './style.css'
 
-const MenuBar = ({ editor }: any) => {
-    if (!editor) {
-        return null;
-    }
+const Tiptap = () => {
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+            TextStyle,
+            Color,
+            TaskList.configure({
+                HTMLAttributes: {
+                    class: "not-prose pl-2",
+                },
+            }),
+            TaskItem.configure({
+                HTMLAttributes: {
+                    class: "flex items-start my-4",
+                },
+                nested: true,
+            }),
+            TextStyle.configure({
+                HTMLAttributes: {
+                    class: "not-prose pl-2",
+                },
+            })
+        ],
+        content: `
+    <h2>
+      Hi there,
+    </h2>
+    <ul data-type="taskList">
+      <li data-type="taskItem" data-checked="true">A list item</li>
+      <li data-type="taskItem" data-checked="false">And another one</li>
+    </ul>
+    <p>
+      this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
+    </p>
+    <ul>
+      <li>
+        That’s a bullet list with one …
+      </li>
+      <li>
+        … or two list items.
+      </li>
+    </ul>
+    <p>
+      Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
+    </p>
+<pre><code class="language-css">body {
+  display: none;
+}</code></pre>
+    <p>
+      I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
+    </p>
+    <blockquote>
+      Wow, that’s amazing. Good work, boy! 👏
+      <br />
+      — Mom
+    </blockquote>
+  `,
+        editorProps: {
+            attributes: {
+                class: 'containerTip prose dark:prose-invert min-h-[70dvh] max-h-[70dvh] overflow-y-auto prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+            },
+        },
+    })
+
+    if (!editor) return null
 
     return (
-        <>
+        <div className='space-x-4'>
+            <input
+                type="color"
+                onInput={(event: any) => editor.chain().focus().setColor(event.target.value).run()}
+                value={editor.getAttributes('textStyle').color}
+            />
+            <button
+                onClick={() => editor.chain().focus().setColor('#958DF1').run()}
+                className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
+            >
+                purple
+            </button>
+            <button
+                onClick={() => editor.chain().focus().setColor('#F98181').run()}
+                className={editor.isActive('textStyle', { color: '#F98181' }) ? 'is-active' : ''}
+            >
+                red
+            </button>
+            <button
+                onClick={() => editor.chain().focus().setColor('#FBBC88').run()}
+                className={editor.isActive('textStyle', { color: '#FBBC88' }) ? 'is-active' : ''}
+            >
+                orange
+            </button>
+            <button
+                onClick={() => editor.chain().focus().setColor('#FAF594').run()}
+                className={editor.isActive('textStyle', { color: '#FAF594' }) ? 'is-active' : ''}
+            >
+                yellow
+            </button>
+            <button
+                onClick={() => editor.chain().focus().setColor('#70CFF8').run()}
+                className={editor.isActive('textStyle', { color: '#70CFF8' }) ? 'is-active' : ''}
+            >
+                blue
+            </button>
+            <button
+                onClick={() => editor.chain().focus().setColor('#94FADB').run()}
+                className={editor.isActive('textStyle', { color: '#94FADB' }) ? 'is-active' : ''}
+            >
+                teal
+            </button>
+            <button
+                onClick={() => editor.chain().focus().setColor('#B9F18D').run()}
+                className={editor.isActive('textStyle', { color: '#B9F18D' }) ? 'is-active' : ''}
+            >
+                green
+            </button>
+            <button onClick={() => editor.chain().focus().unsetColor().run()}>unsetColor</button>
+            <button
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                disabled={
+                    !editor.can()
+                        .chain()
+                        .focus()
+                        .toggleBold()
+                        .run()
+                }
+                className={editor.isActive('bold') ? 'is-active' : ''}
+            >
+                bold
+            </button>
             <button
                 onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                 className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
             >
                 h1
             </button>
-            <button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-            >
-                h2
-            </button>
-            <button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
-            >
-                h3
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setParagraph().run()}
-                className={editor.isActive("paragraph") ? "is-active" : ""}
-            >
-                paragraph
-            </button>
-            <button
-                onClick={() => editor.chain().focus().toggleBold().run()}
-                className={editor.isActive("bold") ? "is-active" : ""}
-            >
-                bold
-            </button>
-            <button
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={editor.isActive("italic") ? "is-active" : ""}
-            >
-                italic
-            </button>
-            <button
-                onClick={() => editor.chain().focus().toggleStrike().run()}
-                className={editor.isActive("strike") ? "is-active" : ""}
-            >
-                strike
-            </button>
-            {/* <button onClick={() => editor.chain().focus().toggleHighlight().run()} className={editor.isActive('highlight') ? 'is-active' : ''}>
-          highlight
-        </button> */}
-            <button
-                onClick={() => editor.chain().focus().setTextAlign("left").run()}
-                className={editor.isActive({ textAlign: "left" }) ? "is-active" : ""}
-            >
-                left
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setTextAlign("center").run()}
-                className={editor.isActive({ textAlign: "center" }) ? "is-active" : ""}
-            >
-                center
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setTextAlign("right").run()}
-                className={editor.isActive({ textAlign: "right" }) ? "is-active" : ""}
-            >
-                right
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setTextAlign("justify").run()}
-                className={editor.isActive({ textAlign: "justify" }) ? "is-active" : ""}
-            >
-                justify
-            </button>
-        </>
-    );
-};
 
-export default function TipTap() {
-    const editor = useEditor({
-        extensions: [
-            Color.configure({ types: [TextStyle.name, ListItem.name] }),
-            TextStyle.configure({ types: [ListItem.name] } as any),
-            StarterKit,
-            TextAlign.configure({
-                types: ["heading", "paragraph"]
-            }),
-            Highlight
-        ],
-        content: `
-        <h2>
-  Hi there,
-</h2>
-<p>
-  this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-</p>
-<ul>
-  <li>
-    That’s a bullet list with one …
-  </li>
-  <li>
-    … or two list items.
-  </li>
-</ul>
-<p>
-  Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-</p>
-<pre><code class="language-css">body {
-display: none;
-}</code></pre>
-<p>
-  I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-</p>
-<blockquote>
-  Wow, that’s amazing. Good work, boy! 👏
-  <br />
-  — Mom
-</blockquote>
-      `
-    });
-
-    return (
-        <div>
-            <MenuBar editor={editor} />
-            <EditorContent className="border border-border rounded-sm outline-none! focus:outline-none!" editor={editor} />
+            <EditorContent editor={editor} />
         </div>
-    );
+    )
 }
+
+export default Tiptap
