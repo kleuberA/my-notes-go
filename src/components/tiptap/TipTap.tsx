@@ -8,6 +8,10 @@ import TextStyle from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
 
 import './style.css'
+import { Button } from '../ui/button';
+import { CodeIcon, FontBoldIcon, FontItalicIcon, StrikethroughIcon } from '@radix-ui/react-icons';
+import { ArrowUUpLeft, ArrowUUpRight, TextHOne, TextHTwo } from '@phosphor-icons/react'
+import { Input } from '../ui/input';
 
 const Tiptap = () => {
     const editor = useEditor({
@@ -68,7 +72,7 @@ const Tiptap = () => {
   `,
         editorProps: {
             attributes: {
-                class: 'containerTip prose dark:prose-invert min-h-[70dvh] max-h-[70dvh] overflow-y-auto prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+                class: 'containerTip prose dark:prose-invert min-h-[65dvh] max-h-[65dvh] overflow-y-auto prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
             },
         },
     })
@@ -77,75 +81,138 @@ const Tiptap = () => {
 
     return (
         <div className='space-x-4'>
-            <input
-                type="color"
-                onInput={(event: any) => editor.chain().focus().setColor(event.target.value).run()}
-                value={editor.getAttributes('textStyle').color}
-            />
-            <button
-                onClick={() => editor.chain().focus().setColor('#958DF1').run()}
-                className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
-            >
-                purple
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setColor('#F98181').run()}
-                className={editor.isActive('textStyle', { color: '#F98181' }) ? 'is-active' : ''}
-            >
-                red
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setColor('#FBBC88').run()}
-                className={editor.isActive('textStyle', { color: '#FBBC88' }) ? 'is-active' : ''}
-            >
-                orange
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setColor('#FAF594').run()}
-                className={editor.isActive('textStyle', { color: '#FAF594' }) ? 'is-active' : ''}
-            >
-                yellow
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setColor('#70CFF8').run()}
-                className={editor.isActive('textStyle', { color: '#70CFF8' }) ? 'is-active' : ''}
-            >
-                blue
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setColor('#94FADB').run()}
-                className={editor.isActive('textStyle', { color: '#94FADB' }) ? 'is-active' : ''}
-            >
-                teal
-            </button>
-            <button
-                onClick={() => editor.chain().focus().setColor('#B9F18D').run()}
-                className={editor.isActive('textStyle', { color: '#B9F18D' }) ? 'is-active' : ''}
-            >
-                green
-            </button>
-            <button onClick={() => editor.chain().focus().unsetColor().run()}>unsetColor</button>
-            <button
-                onClick={() => editor.chain().focus().toggleBold().run()}
-                disabled={
-                    !editor.can()
-                        .chain()
-                        .focus()
-                        .toggleBold()
-                        .run()
-                }
-                className={editor.isActive('bold') ? 'is-active' : ''}
-            >
-                bold
-            </button>
-            <button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-            >
-                h1
-            </button>
-
+            <div className='flex w-full space-x-2 p-1'>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().toggleBold().run()}
+                    disabled={
+                        !editor.can()
+                            .chain()
+                            .focus()
+                            .toggleBold()
+                            .run()
+                    }
+                    className={editor.isActive('bold') ? 'is-active' : ''}
+                >
+                    <FontBoldIcon />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().toggleItalic().run()}
+                    disabled={
+                        !editor.can()
+                            .chain()
+                            .focus()
+                            .toggleItalic()
+                            .run()
+                    }
+                    className={editor.isActive('italic') ? 'is-active' : ''}
+                >
+                    <FontItalicIcon />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().toggleStrike().run()}
+                    disabled={
+                        !editor.can()
+                            .chain()
+                            .focus()
+                            .toggleStrike()
+                            .run()
+                    }
+                    className={editor.isActive('strike') ? 'is-active' : ''}
+                >
+                    <StrikethroughIcon />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                    className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+                >
+                    <TextHOne size={16} />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                    className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+                >
+                    <TextHTwo size={16} />
+                </Button>
+                {/* <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().toggleCode().run()}
+                    disabled={
+                        !editor.can()
+                            .chain()
+                            .focus()
+                            .toggleCode()
+                            .run()
+                    }
+                    className={editor.isActive('code') ? 'is-active' : ''}
+                >
+                    <CodeIcon />
+                </Button> */}
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                    className={editor.isActive('codeBlock') ? 'is-active' : ''}
+                >
+                    <CodeIcon />
+                </Button>
+                {/* <button
+                    onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                    className={editor.isActive('blockquote') ? 'is-active' : ''}
+                >
+                    blockquote
+                </button> */}
+                <Input
+                    className='w-10 h-10 flex p-1'
+                    type="color"
+                    onInput={(event: any) => editor.chain().focus().setColor(event.target.value).run()}
+                    value={editor.getAttributes('textStyle').color}
+                />
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().unsetColor().run()}>UC</Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().undo().run()}
+                    disabled={
+                        !editor.can()
+                            .chain()
+                            .focus()
+                            .undo()
+                            .run()
+                    }
+                >
+                    <ArrowUUpLeft size={16} />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => editor.chain().focus().redo().run()}
+                    disabled={
+                        !editor.can()
+                            .chain()
+                            .focus()
+                            .redo()
+                            .run()
+                    }
+                >
+                    <ArrowUUpRight size={16} />
+                </Button>
+            </div>
             <EditorContent editor={editor} />
+            <Button>Save</Button>
         </div>
     )
 }

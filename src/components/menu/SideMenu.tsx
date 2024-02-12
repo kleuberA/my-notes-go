@@ -10,7 +10,7 @@ export default function SideMenu() {
 
     const { data: note, isLoading, isError } = useGetNotes();
     const [pathNote, setPathNote] = useState<string>();
-    console.log(note)
+    // console.log(note)
     const pathname = usePathname();
     useEffect(() => {
         setPathNote(pathname.split('/').pop());
