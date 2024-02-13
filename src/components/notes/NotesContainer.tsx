@@ -4,11 +4,13 @@ import useGetNotes from "@/hooks/use-get-notes";
 import useSupabase from "@/hooks/use-supabase";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function NotesContainer() {
 
     const supabase = useSupabase();
     const { data: note, isLoading, isError } = useGetNotes();
+    const router = useRouter();
     // console.log(note)
 
     if (isLoading) {
@@ -34,6 +36,7 @@ export default function NotesContainer() {
                         color: '#fff',
                     }
                 })
+            router.push('/notes');
         }
     }
 
@@ -56,7 +59,7 @@ export default function NotesContainer() {
                             {note?.map((note) => (
                                 <Link href={`/note/${note.id}`} key={note.id} className="h-24 group hover:bg-border relative transition-all duration-300 cursor-pointer w-64 flex items-center justify-between border border-border p-2 rounded-sm">
                                     <div
-                                        className="absolute hidden group-hover:flex transition-all duration-300 justify-center items-center rounded-sm w-5 h-5 bg-red-500/35 top-2"
+                                        className="absolute z-10 hidden group-hover:flex transition-all duration-300 justify-center items-center rounded-sm w-5 h-5 bg-red-500/35 top-2"
                                         onClick={() => handleClickDeleteNote(note.id)}
                                     >
                                         <TrashIcon />

@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
     name: z.string().min(5, {
@@ -21,6 +22,7 @@ const FormSchema = z.object({
 export default function CreateNote() {
 
     const client = useSupabase();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -43,6 +45,7 @@ export default function CreateNote() {
                         border: '1px solid #2e2e2e'
                     },
                 });
+            router.refresh();
         } else {
             toast.error("Error creating Note!",
                 {

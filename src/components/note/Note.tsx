@@ -20,7 +20,7 @@ export default function NoteComponent(props: NoteComponentProps) {
     return (
         <section className="w-full h-full flex flex-col p-4">
             <h1 className="text-xl tracking-widest font-semibold text-accent-foreground">Title: <span className="text-primary">{note?.titulo}</span> </h1>
-            <Tiptap />
+            <Tiptap idNote={note?.id as string} tituloNote={note?.titulo as string} text={note?.text as string} />
         </section>
     )
 }

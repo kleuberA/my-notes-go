@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -9,11 +9,24 @@ import { Color } from "@tiptap/extension-color";
 
 import './style.css'
 import { Button } from '../ui/button';
-import { CodeIcon, FontBoldIcon, FontItalicIcon, StrikethroughIcon } from '@radix-ui/react-icons';
+import { CodeIcon, FontBoldIcon, FontItalicIcon, StrikethroughIcon, TrashIcon } from '@radix-ui/react-icons';
 import { ArrowUUpLeft, ArrowUUpRight, TextHOne, TextHTwo } from '@phosphor-icons/react'
 import { Input } from '../ui/input';
+import useSupabase from '@/hooks/use-supabase';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
-const Tiptap = () => {
+type propsTipTap = {
+    idNote: string | undefined;
+    tituloNote: string | undefined;
+    text: string | undefined;
+}
+
+function Tiptap({ idNote, tituloNote, text }: propsTipTap) {
+
+    const supabase = useSupabase();
+    const router = useRouter();
+
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -36,40 +49,7 @@ const Tiptap = () => {
                 },
             })
         ],
-        content: `
-    <h2>
-      Hi there,
-    </h2>
-    <ul data-type="taskList">
-      <li data-type="taskItem" data-checked="true">A list item</li>
-      <li data-type="taskItem" data-checked="false">And another one</li>
-    </ul>
-    <p>
-      this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-    </p>
-    <ul>
-      <li>
-        That’s a bullet list with one …
-      </li>
-      <li>
-        … or two list items.
-      </li>
-    </ul>
-    <p>
-      Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-    </p>
-<pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-    <p>
-      I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-    </p>
-    <blockquote>
-      Wow, that’s amazing. Good work, boy! 👏
-      <br />
-      — Mom
-    </blockquote>
-  `,
+        content: text,
         editorProps: {
             attributes: {
                 class: 'containerTip prose dark:prose-invert min-h-[65dvh] max-h-[65dvh] overflow-y-auto prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
@@ -78,6 +58,56 @@ const Tiptap = () => {
     })
 
     if (!editor) return null
+
+    async function onSave() {
+        const { error } = await supabase.from('notes')
+            .update({
+                text: editor?.getHTML(),
+                titulo: tituloNote,
+            })
+            .match({ id: idNote })
+            .throwOnError()
+            .select<string>('*')
+            .throwOnError()
+            .single();
+        console.log(error);
+        if (!error) {
+            toast.success('Note updated successfully!', {
+                style: {
+                    borderRadius: '3px',
+                    background: '#333',
+                    color: '#fff',
+                }
+            })
+        } else {
+            toast.error('Error updating note!', {
+                style: {
+                    borderRadius: '3px',
+                    background: '#333',
+                    color: '#fff',
+                }
+            })
+        }
+    }
+
+    async function onDelete() {
+        const { error } = await supabase
+            .from('notes')
+            .delete()
+            .eq('id', idNote as string)
+            .single();
+        if (!error) {
+            toast.success('Note deleted successfully!',
+                {
+                    style: {
+                        borderRadius: '3px',
+                        background: '#333',
+                        color: '#fff',
+                    }
+                })
+            router.push('/notes');
+        }
+    }
 
     return (
         <div className='space-x-4'>
@@ -212,7 +242,10 @@ const Tiptap = () => {
                 </Button>
             </div>
             <EditorContent editor={editor} />
-            <Button>Save</Button>
+            <div className='w-[78dvw] mx-auto flex flex-row justify-between'>
+                <Button onClick={onSave}>Save</Button>
+                <Button variant="destructive" className='flex flex-row gap-2 items-center' onClick={onDelete}> <TrashIcon /> Delete</Button>
+            </div>
         </div>
     )
 }
