@@ -13,6 +13,22 @@ Esse aplicativo foi desenvolvido para facilitar a anotações dos usuarios, ou s
     5. React Hot Toast
     6. Framer Motion
 
+## Screenshots
+
+![App Screenshot](https://imgur.com/8shKADu.png)
+
+![App Screenshot](https://imgur.com/X0bSAJv.png)
+
+![App Screenshot](https://imgur.com/Rz4vTcz.png)
+
+![App Screenshot](https://imgur.com/cG1JH7e.png)
+
+![App Screenshot](https://imgur.com/rVyfenf.png)
+
+![App Screenshot](https://imgur.com/3Y4ZedR.png)
+
+![App Screenshot](https://imgur.com/wOLYiXI.png)
+
 ## Getting Started
 
 First, run the development server:
