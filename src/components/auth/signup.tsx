@@ -21,7 +21,7 @@ export default function SignUpComponent() {
 
     const supabase = useSupabase();
 
-    isAuthenticated();
+    // isAuthenticated();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
